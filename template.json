@@ -1,0 +1,76 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_WifiTestVM_name": {
+            "defaultValue": "WifiTestVM",
+            "type": "String"
+        },
+        "disks_WifiTestVM_OsDisk_1_d627bd94269b4db285888ed9c8a296c2_externalid": {
+            "defaultValue": "/subscriptions/c14d9486-e337-4338-b977-a608921b5642/resourceGroups/WifiTest/providers/Microsoft.Compute/disks/WifiTestVM_OsDisk_1_d627bd94269b4db285888ed9c8a296c2",
+            "type": "String"
+        },
+        "networkInterfaces_wifitestvm774_externalid": {
+            "defaultValue": "/subscriptions/c14d9486-e337-4338-b977-a608921b5642/resourceGroups/WifiTest/providers/Microsoft.Network/networkInterfaces/wifitestvm774",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('virtualMachines_WifiTestVM_name')]",
+            "location": "westus",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B1ls"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "rs5-pro",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_WifiTestVM_name'), '_OsDisk_1_d627bd94269b4db285888ed9c8a296c2')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_WifiTestVM_OsDisk_1_d627bd94269b4db285888ed9c8a296c2_externalid')]"
+                        },
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_WifiTestVM_name')]",
+                    "adminUsername": "wifitest",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_wifitestvm774_externalid')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "https://wifitestdiag.blob.core.windows.net/"
+                    }
+                },
+                "licenseType": "Windows_Client"
+            }
+        }
+    ]
+}

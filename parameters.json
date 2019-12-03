@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_WifiTestVM_name": {
+            "value": null
+        },
+        "disks_WifiTestVM_OsDisk_1_d627bd94269b4db285888ed9c8a296c2_externalid": {
+            "value": null
+        },
+        "networkInterfaces_wifitestvm774_externalid": {
+            "value": null
+        }
+    }
+}
